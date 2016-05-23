@@ -311,8 +311,10 @@ var Select = React.createClass({
 			placeholder = this.props.placeholder;
 		}
 
+		var shouldPersist = this.props.multi && this.props.allowSearchPersist;
+
 		// reset internal filter string
-		if (!this.props.allowSearchPersist) {
+		if (!shouldPersist) {
 			this._optionsFilterString = '';
 		}
 
@@ -334,7 +336,7 @@ var Select = React.createClass({
 		return {
 			value: valueForState,
 			values: values,
-			inputValue: this.props.allowSearchPersist ? this.state.inputValue : '',
+			inputValue: shouldPersist ? this.state.inputValue : '',
 			filteredOptions: filteredOptions,
 			placeholder: !this.props.multi && values.length ? values[0][this.props.labelKey] : placeholder,
 			focusedOption: focusedOption
