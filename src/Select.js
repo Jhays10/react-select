@@ -18,6 +18,7 @@ var Select = React.createClass({
 	propTypes: {
 		addLabelText: React.PropTypes.string,      // placeholder displayed when you want to add a label on a multi-value input
 		allowCreate: React.PropTypes.bool,         // whether to allow creation of new entries
+		allowSearchPersist: React.PropTypes.bool,	 // whether to persist input value after selection
 		asyncOptions: React.PropTypes.func,        // function to call to get options
 		autoload: React.PropTypes.bool,            // whether to auto-load the default async options set
 		backspaceRemoves: React.PropTypes.bool,    // whether backspace removes an item if there is no text input
@@ -63,6 +64,7 @@ var Select = React.createClass({
 		return {
 			addLabelText: 'Add "{label}"?',
 			allowCreate: false,
+			allowSearchPersist: false,
 			asyncOptions: undefined,
 			autoload: true,
 			backspaceRemoves: true,

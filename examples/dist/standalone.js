@@ -85,6 +85,7 @@ var Select = React.createClass({
 	propTypes: {
 		addLabelText: React.PropTypes.string, // placeholder displayed when you want to add a label on a multi-value input
 		allowCreate: React.PropTypes.bool, // whether to allow creation of new entries
+		allowSearchPersist: React.PropTypes.bool, // whether to persist input value after selection
 		asyncOptions: React.PropTypes.func, // function to call to get options
 		autoload: React.PropTypes.bool, // whether to auto-load the default async options set
 		backspaceRemoves: React.PropTypes.bool, // whether backspace removes an item if there is no text input
@@ -130,6 +131,7 @@ var Select = React.createClass({
 		return {
 			addLabelText: 'Add "{label}"?',
 			allowCreate: false,
+			allowSearchPersist: false,
 			asyncOptions: undefined,
 			autoload: true,
 			backspaceRemoves: true,
@@ -310,7 +312,9 @@ var Select = React.createClass({
 		}
 
 		// reset internal filter string
-		this._optionsFilterString = '';
+		if (!this.props.allowSearchPersist) {
+			this._optionsFilterString = '';
+		}
 
 		var values = this.initValuesArray(value, options);
 		var filteredOptions = this.filterOptions(options, values);
@@ -330,7 +334,7 @@ var Select = React.createClass({
 		return {
 			value: valueForState,
 			values: values,
-			inputValue: '',
+			inputValue: this.props.allowSearchPersist ? this.state.inputValue : '',
 			filteredOptions: filteredOptions,
 			placeholder: !this.props.multi && values.length ? values[0][this.props.labelKey] : placeholder,
 			focusedOption: focusedOption

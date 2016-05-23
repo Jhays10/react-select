@@ -1136,12 +1136,11 @@ module.exports = React.createClass({
       size: 50,
       rating: 'g',
       https: false,
-      "default": "retro",
-      className: ""
+      "default": "retro"
     };
   },
   render: function() {
-    var base, hash, modernBrowser, query, retinaQuery, retinaSrc, src;
+    var base, className, hash, modernBrowser, query, retinaQuery, retinaSrc, src;
     base = this.props.https ? "https://secure.gravatar.com/avatar/" : 'http://www.gravatar.com/avatar/';
     query = querystring.stringify({
       s: this.props.size,
@@ -1167,23 +1166,29 @@ module.exports = React.createClass({
     if (typeof window !== "undefined" && window !== null) {
       modernBrowser = 'srcset' in document.createElement('img');
     }
+    className = 'react-gravatar';
+    if (this.props.className) {
+      className = className + " " + this.props.className;
+    }
     if (!modernBrowser && isRetina()) {
-      return React.createElement("img", {
+      return React.createElement("img", Object.assign({
         "style": this.props.style,
-        "className": "react-gravatar " + this.props.className,
         "src": retinaSrc,
         "height": this.props.size,
         "width": this.props.size
-      });
+      }, this.props, {
+        "className": className
+      }));
     } else {
-      return React.createElement("img", {
+      return React.createElement("img", Object.assign({
         "style": this.props.style,
-        "className": "react-gravatar " + this.props.className,
         "src": src,
         "srcSet": retinaSrc + " 2x",
         "height": this.props.size,
         "width": this.props.size
-      });
+      }, this.props, {
+        "className": className
+      }));
     }
   }
 });
@@ -1509,12 +1514,12 @@ module.exports = charenc;
  */
 
 module.exports = function (obj) {
-  return !!(
-    obj != null &&
-    obj.constructor &&
-    typeof obj.constructor.isBuffer === 'function' &&
-    obj.constructor.isBuffer(obj)
-  )
+  return !!(obj != null &&
+    (obj._isBuffer || // For Safari 5-7 (missing Object.prototype.constructor)
+      (obj.constructor &&
+      typeof obj.constructor.isBuffer === 'function' &&
+      obj.constructor.isBuffer(obj))
+    ))
 }
 
 },{}]},{},[1]);
