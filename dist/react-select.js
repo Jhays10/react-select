@@ -311,7 +311,7 @@ var Select = React.createClass({
 			placeholder = this.props.placeholder;
 		}
 
-		var shouldPersist = this.props.multi && this.props.allowSearchPersist;
+		var shouldPersist = !this.props.allowCreate && this.props.multi && this.props.allowSearchPersist;
 
 		// reset internal filter string
 		if (!shouldPersist) {
